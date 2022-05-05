@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script>
+        const nomeContext = React.createContext('nome');
+
+        function MeuComponente1() {
+            const meuNome = 'Ana Maria Braga123';
+
+            return (
+                React.createElement(nomeContext.Provider, { value: meuNome }, React.createElement('div', { className: 'componente1' }, React.createElement(MeuComponente2, { nome: meuNome }))));
+
+        };
+
+        function MeuComponente2(props) {
+            return React.createElement('div', { className: 'componente2' }, React.createElement(MeuComponente3));
+           /*  return React.createElement('div', { className: 'componente2' }, React.createElement(MeuComponente3, { nome: props.nome })); */
+        };
+
+        function MeuComponente3(props) {
+            return React.createElement('div', { className: 'componente3' }, React.createElement(MeuComponente4));
+            /* return React.createElement('div', { className: 'componente3' }, React.createElement(MeuComponente4, { nome: props.nome })); */
+        };
+
+        function MeuComponente4() {  // props carrega o objeto meuNome
+            return (
+                React.createElement(nomeContext.Consumer, null, (nomeContext => 
+                React.createElement('div', { className: 'componente4' }, React.createElement('p', null,nomeContext))))
+            )
+        };
+
+        function MeuComponente() {
+            //  criar tags ahtml -> React.creatElement(nome da tag, {propriedades}, filhos da tag)
+            return React.createElement('div', { id: 'componente' },
+                React.createElement(MeuComponente1)
+            );
+        };
+
+        ReactDOM.render(
+            React.createElement(MeuComponente),
+            document.querySelector('#app')
+        );
+    </script>
+</body>
+
+</html>
